@@ -1,7 +1,7 @@
 # salesforce-lightning-slds-table
 Simple Generic Lightning Component
 
-![alt tag](http://www.imageno.com/image.php?id=x896nwtczrax&kk=39968257http://www.imageno.com/thumbs/20161216/x896nwtczrax.jpghttp://www.imageno.com/thumbs/20161216/x896nwtczrax.jpghttp://www.imageno.com/thumbs/20161216/x896nwtczrax.jpg
+![alt tag](http://picpaste.com/pics/lightning_table-d24rSlQw.1481880700.PNG)
 
 
 How to Use:
