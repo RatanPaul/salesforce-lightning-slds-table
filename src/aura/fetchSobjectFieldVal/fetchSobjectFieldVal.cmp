@@ -1,0 +1,9 @@
+<aura:component >
+	<aura:attribute name="record" type="Sobject" />
+    <aura:attribute name="field" type="String" default="Name" />
+    <aura:attribute name="fieldVal" type="String" default="test" />
+    
+     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    {!v.fieldVal}
+</aura:component>

@@ -1,0 +1,83 @@
+<aura:component controller="Paginationcontroller" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+    
+    <ltng:require styles="/resource/SLDS214/styles/salesforce-lightning-design-system.css" afterScriptsLoaded="{!c.doInit}"/>
+    
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+    
+    <aura:attribute name="PageSize" type="Integer" default="10" />
+    <aura:attribute name="PageNum" type="Integer" default="1" />
+    <aura:attribute name="totalRecordSize" type="Integer" default="0" />
+    <aura:attribute name="totalPageSize" type="Integer" default="0" />
+    <aura:attribute name="lstOpp" type="Opportunity[]" />
+    <aura:attribute name="strOrderByFieldName" type="String"  />
+    <aura:attribute name="strOrderByAscOrDesc" type="String"  />
+   	
+    <aura:attribute name="sObjectName" type="String"  required="true" default="Opportunity"/>
+    <aura:attribute name="sObjectFields" type="String" required="true" default="Name, StageName, Type"/>
+    <aura:attribute name="lstFieldsApiNames" type="String[]" required="true" default="['Name', 'StageName', 'Type']"/>
+    <aura:attribute name="pageSizes" type="String[]" required="false" default="['10', '15', '20']"/>
+    
+   	<center><ui:spinner aura:id="spinner"/></center>
+    
+    <table class="slds-table slds-table--bordered slds-table--striped">
+        <thead>
+            <tr>
+                <aura:iteration items="{!v.lstFieldsApiNames}" var="fieldName">
+                <th>
+                    <b>
+                        <aura:if isTrue="{!v.strOrderByFieldName == fieldName}">
+                            <span>
+                             <aura:if isTrue="{!v.strOrderByAscOrDesc == 'ASC'}">
+                                <span><a href="#" aura:id="{!fieldName}" onclick="{!c.orderByField}">{!fieldName} </a>&#8593;</span>
+                                <aura:set attribute="else">
+                                  <span><a href="#" id="{!fieldName}" onclick="{!c.orderByField}">{!fieldName} </a>&#8595;</span>
+                                </aura:set>
+                              </aura:if>
+                            </span>
+                            <aura:set attribute="else">
+                              <span><a href="#" aura:id="{!fieldName}" onclick="{!c.orderByField}">{!fieldName} </a></span>
+                            </aura:set>
+                        </aura:if>
+                    </b>
+                </th>
+                </aura:iteration>
+            </tr>
+        </thead>
+        <aura:iteration items="{!v.lstOpp}" var="oppty">
+            <tbody>
+                <tr>
+                    <aura:iteration items="{!v.lstFieldsApiNames}" var="fieldName">
+                    	<td>
+                            <c:fetchSobjectFieldVal record="{!oppty}" fieldVal="{!fieldName}" />
+                        </td>   
+                    </aura:iteration>
+                </tr>
+            </tbody>
+        </aura:iteration>
+    </table>
+    <br />
+    <center>  
+       	<table>
+        	<tr>
+            	<td class="paddingLeft tdWidth" >
+                	<ui:inputSelect class="tdWidth slds-select uiSelect" aura:id="pgSizeId" change="{!c.updatePageSize}">
+                    </ui:inputSelect> 
+                </td>
+                <td class="tdWidth"></td>
+                <td class="tdWidth" >
+                    <lightning:button variant="neutral" label=" &#60;&#60; " onclick="{!c.getFirstPage}" disabled="{!if(v.PageNum == 1, true, false)}"/>
+                    <lightning:button variant="neutral" label=" &#60; " onclick="{!c.getPreviousPage}" disabled="{!if(v.PageNum == 1, true, false)}"/>
+            		<lightning:button variant="neutral" label=" &#62; " onclick="{!c.getNextPage}" disabled="{!if(v.PageNum == v.totalPageSize, true, false)}"/>
+                    <lightning:button variant="neutral" label=" &#62;&#62; " onclick="{!c.getLastPage}" disabled="{!if(v.PageNum == v.totalPageSize, true, false)}"/>
+                </td>
+                <td class="tdWidth"></td>
+                <td class="paddingRight tdWidth">
+                    Page&nbsp; <!--ui:outputText aura:id="pageNumber" value="{!v.PageNum}"/> / {!v.totalPageSize}&nbsp;-->
+                    <ui:inputSelect class="tdWidth slds-select uiSelect" aura:id="InputSelectDynamic" change="{!c.gotoPage}"></ui:inputSelect>
+                	&nbsp;/ {!v.totalPageSize}
+                </td>
+            </tr>
+        </table> 
+    </center>
+</aura:component>
