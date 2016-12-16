@@ -13,10 +13,10 @@ How to Use:
 ```
 
 
-sObjectName = will be sobject Name 
-sObjectFields = provide field names comma separated 
-
-
-pageSizes 
+sObjectName = will be sobject Name <br/>
+sObjectFields = provide field names comma separated <br/>
+pageSizes = will be page size like 10, 15, 25, 50 etc <br/>
+strOrderByFieldName = You can set the order by any column<br/>
+strOrderByAscOrDesc = Also you can assign ASC or DSEC order
 
 
